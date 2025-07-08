@@ -4,9 +4,6 @@ const mongoose = require('mongoose');
 // Router instance
 const router = express.Router();
 
-// MongoDB connection from global
-const mongoDb = global.mongoDb;
-
 // Define a schema for calculation history
 const CalculationSchema = new mongoose.Schema({
   expression: { type: String, required: true },
@@ -14,8 +11,8 @@ const CalculationSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now }
 });
 
-// Define a model for calculations
-const Calculation = mongoDb.model('Calculation', CalculationSchema);
+// Define a model for calculations using mongoose directly
+const Calculation = mongoose.model('Calculation', CalculationSchema);
 
 // GET /api/hello - Test endpoint
 router.get('/hello', (req, res) => {

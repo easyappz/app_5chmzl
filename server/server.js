@@ -17,22 +17,17 @@ app.use('/api', apiRoutes);
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/calculator';
 
-const mongoDb = mongoose.createConnection(MONGO_URI, {
+// Connect to MongoDB using mongoose directly
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
+})
+.then(() => {
+  console.log('MongoDB connected successfully');
+})
+.catch((err) => {
+  console.error('MongoDB connection error:', err);
 });
-
-mongoDb
-  .asPromise()
-  .then(() => {
-    console.log('MongoDB connected successfully');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
-
-// Make MongoDB connection available globally
-global.mongoDb = mongoDb;
 
 // Define port
 const PORT = process.env.PORT || 5000;
