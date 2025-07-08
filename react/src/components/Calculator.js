@@ -11,6 +11,9 @@ const CalculatorContainer = styled(Box)({
   maxWidth: '500px',
   margin: '0 auto',
   padding: '20px',
+  borderRadius: '20px',
+  boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.5)',
+  overflow: 'hidden',
 });
 
 const Display = styled(Box)({
@@ -43,6 +46,7 @@ const CalcButton = styled(Button)(({ theme, variant }) => ({
     backgroundColor: variant === 'operation' ? '#ffaa33' : variant === 'secondary' ? '#b5b5b5' : '#444',
   },
   minWidth: '80px',
+  transition: 'background-color 0.2s ease-in-out',
 }));
 
 const Calculator = () => {
@@ -77,6 +81,18 @@ const Calculator = () => {
     setPreviousValue(null);
     setOperation(null);
     setWaitingForSecondValue(false);
+  };
+
+  const handleToggleSign = () => {
+    if (display !== '0') {
+      setDisplay((parseFloat(display) * -1).toString());
+    }
+  };
+
+  const handlePercent = () => {
+    if (display !== '0') {
+      setDisplay((parseFloat(display) / 100).toString());
+    }
   };
 
   const handleCalculate = () => {
@@ -116,8 +132,12 @@ const Calculator = () => {
         <CalcButton variant="secondary" onClick={handleClear}>
           AC
         </CalcButton>
-        <CalcButton variant="secondary">+/-</CalcButton>
-        <CalcButton variant="secondary">%</CalcButton>
+        <CalcButton variant="secondary" onClick={handleToggleSign}>
+          +/-
+        </CalcButton>
+        <CalcButton variant="secondary" onClick={handlePercent}>
+          %
+        </CalcButton>
         <CalcButton variant="operation" onClick={() => handleOperationClick('÷')}>
           ÷
         </CalcButton>
