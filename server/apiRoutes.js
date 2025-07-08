@@ -11,7 +11,7 @@ const CalculationSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now }
 });
 
-// Define a model for calculations using mongoose directly
+// Define a model for calculations using mongoose
 const Calculation = mongoose.model('Calculation', CalculationSchema);
 
 // GET /api/hello - Test endpoint

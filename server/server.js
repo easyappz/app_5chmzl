@@ -1,11 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const apiRoutes = require('./apiRoutes');
 
 // Initialize express app
 const app = express();
+
+// Middleware to enable CORS
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
@@ -17,7 +21,7 @@ app.use('/api', apiRoutes);
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/calculator';
 
-// Connect to MongoDB using mongoose directly
+// Connect to MongoDB using mongoose
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -27,6 +31,12 @@ mongoose.connect(MONGO_URI, {
 })
 .catch((err) => {
   console.error('MongoDB connection error:', err);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
 // Define port
